@@ -1,0 +1,138 @@
+html {
+    background-color: black;
+    animation: 25s infinite alternate ease-out breathing-color--dark;
+}
+
+@keyframes breathing-color--dark {
+    from {
+        background-color: #57CC99;
+    }
+    to {
+        background-color: #80ED99;
+    }
+}
+
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+}
+
+body {
+    margin: 0;
+    padding: 0%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+}
+
+.circle {
+    position: relative;
+    width: 50vh;
+    height: 50vh;
+    top: 110px;
+    background: linear-gradient(#304d63, #b2e7e8);
+    /* background: linear-gradient(#33ccff,#ff0066);*/
+    border-radius: 50%;
+    animation: sk-bounce 2.0s forwards;
+}
+
+@keyframes animate {
+    from {
+        transform: rotate(8deg);
+    }
+    to {
+        transform: rotate(368deg);
+    }
+}
+
+@keyframes sk-bounce {
+    0%,
+    100% {
+        transform: scale(0.0);
+        -webkit-transform: scale(0.0);
+    }
+    50% {
+        transform: scale(1.0);
+        -webkit-transform: scale(1.0);
+    }
+}
+
+@keyframes scaled {
+    from {
+        transform: scale(0);
+    }
+    to {
+        transform: scale(-190px);
+    }
+}
+
+.circle:after {
+    content: '';
+    position: absolute;
+    top: 35px;
+    right: 35px;
+    bottom: 35px;
+    left: 35px;
+    border-radius: 50%;
+    background-color: black;
+    animation: 25s infinite alternate ease-out breathing-color--dark;
+}
+
+.circle span {
+    position: center;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(#304d63, #b2e7e8);
+    border-radius: 50%;
+}
+
+.circle span:nth-child(1) {
+    filter: blur(5px);
+}
+
+.circle span:nth-child(2) {
+    filter: blur(10px);
+}
+
+.circle span:nth-child(3) {
+    filter: blur(20px);
+}
+
+.circle span:nth-child(4) {
+    filter: blur(55px);
+}
+
+.data1 {
+    position: relative;
+    background-image: image();
+    animation-delay: 15s;
+    border-radius: 10px;
+    width: 100px;
+    height: 100px;
+    right: 50vh;
+    animation: 5s pop1 forwards;
+}
+
+@keyframes slideInFromLeft {
+    0% {
+        transform: translateX(500%);
+    }
+    100% {
+        transform: translateX(-425%);
+    }
+}
+
+@keyframes pop1{
+    0%,
+    50% {
+        transform: scale(0.0);
+        -webkit-transform: scale(0.0);
+    }
+    100% {
+        transform: scale(1.0);
+        -webkit-transform: scale(1.0);
+    }
+}

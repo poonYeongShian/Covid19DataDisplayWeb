@@ -1,0 +1,99 @@
+/* Background 
+References: 1.https://www.youtube.com/watch?v=MMNEEdGa5eE 
+            2.https://www.youtube.com/watch?v=PkxA6m-NNCY
+*/
+
+
+/*breating effect */
+
+html {
+    background-color: black;
+    animation: 10s infinite alternate ease-out breathing-color--dark;
+}
+
+@keyframes breathing-color--dark {
+    from {
+        background-color: #420516;
+    }
+    to {
+        background-color: #B42B51;
+    }
+}
+
+
+/* Login item css */
+
+.box {
+    border-radius: 25px;
+    width: 300px;
+    padding: 30px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+.box:before {
+    content: "";
+    position: absolute;
+    box-shadow: inset 0 0 2000px rgba(0, 0, 0, 0.2);
+    filter: blur(50px);
+}
+
+.box h1 {
+    color: rgb(255, 255, 255);
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+.box input[type="text"],
+.box input[type="password"] {
+    border: 0;
+    background-color: none;
+    display: block;
+    margin: 20px auto;
+    text-align: center;
+    border: 3px solid #ffffff;
+    padding: 14px 10px;
+    width: 220px;
+    outline: none;
+    color: black;
+    border-radius: 20px;
+    transition: 0.25px;
+}
+
+.box input[type="text"]:focus,
+.box input[type="password"]:focus {
+    width: 270px;
+    border-color: #000000ec;
+}
+
+.box input[type="button"] {
+    border: 0;
+    background: none;
+    display: block;
+    margin: 20px auto;
+    text-align: center;
+    border: 3px solid #ffffffec;
+    padding: 14px 35px;
+    outline: none;
+    color: white;
+    border-radius: 20px;
+    transition: 0.25px;
+    cursor: pointer;
+}
+
+.box input[type="button"]:hover {
+    background: #000000ec;
+}
+
+.box p {
+    color: black;
+    display: inline
+}
+
+.box a {
+    display: inline
+}

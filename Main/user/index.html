@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Login</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" />
+    <link rel="stylesheet" href="./static/css/login.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300&display=swap" rel="stylesheet">
+</head>
+
+</html>
+
+<body>
+    <section>
+        <div id="container">
+            <header></header>
+            <main>
+                <section class="half"></section>
+                <section class="half"></section>
+            </main>
+        </div>
+        <div class="wrapper fadeInDown">
+            
+            <div id="formContent">
+              <!-- Tabs Titles -->
+              <h2 class="active"  id = "loginTab"  onclick= showSignIn()> Sign In </h2>
+              <h2 class="inactive underlineHover" id = "signUpTab" onclick= showSignUp()>Sign Up </h2>
+          
+          
+              <!-- Login Form -->
+              <!-- Login Form -->
+                <div id=loginElements >
+                    <form>
+                           
+                    <input type="text" id="loginUsername" class="fadeIn third" name="login" placeholder="Username">
+                    <input type="password" id="loginPassword" class="fadeIn fourth" name="password" placeholder="Password">
+                    <i class="bi bi-eye-slash" id="togglePassword"></i>
+                    <input type="button" class="fadeIn second" value="Log In" id="loginbutton">
+                    </form>
+                </div>
+
+                <div id=signupElements style="display:none">
+                    <form>
+                    <input type="text" id="signupUsername" class="fadeIn first" name="signup" placeholder="Enter Username">
+                    <input type="text" id="signupEmail" class="fadeIn second" name="signup" placeholder="Enter Email Address">
+                    <input type="number" id="signupPhoneNumber" class="fadeIn third" name="signup" placeholder="Enter Phone Number">
+                    <input type="password" id="password1" class="fadeIn fourth" name="password" placeholder="Enter Password">
+                    <i class="bi bi-eye-slash" id="togglePassword1"></i>
+                    <input type="password" id="password2" class="fadeIn fourth" name="password" placeholder="Confirm Password">
+                    <i class="bi bi-eye-slash" id="togglePassword2"></i>
+                    <input type="button" class="fadeIn fourth" value="Sign Up" id="signupbutton">
+                    </form>
+                </div>
+              
+
+              <!-- Remind Passowrd -->
+              <div id="formFooter">
+                <div id="errorMessageField"></div>
+              </div>
+          
+            </div>
+        </div>
+        
+    </section>
+    <script src="./static/js/login.js"></script>
+    <!-- <script src="./static/js/signup.js"></script> -->
+    <script src="./static/js/shared.js"></script>
+
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-app.js";
+        // import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-firebase-auth.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+      
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+          apiKey: "AIzaSyB2jKX6IV_zdri-FYVqkf1GmbIhO5YOQBQ",
+          authDomain: "fir-covid-tracker-253ec.firebaseapp.com",
+          databaseURL: "https://fir-covid-tracker-253ec-default-rtdb.firebaseio.com",
+          projectId: "fir-covid-tracker-253ec",
+          storageBucket: "fir-covid-tracker-253ec.appspot.com",
+          messagingSenderId: "240324699245",
+          appId: "1:240324699245:web:7a1c81fc3398c92b778b64"
+        };
+      
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+
+        import {getDatabase, ref, set, get, child, update, remove}
+        from "https://www.gstatic.com/firebasejs/9.1.1/firebase-database.js"
+
+        const db = getDatabase();
+
+        // Assign Sign Up Btn Event
+        var sign_up_btn = document.getElementById("signupbutton");
+        sign_up_btn.addEventListener('click', addAccount)
+        // Assign Login Btn Event
+        var login_btn = document.getElementById("loginbutton");
+        login_btn.addEventListener('click', loginAccount)
+
+        // sign up function
+        function loginAccount(){
+            const dbref = ref(db)
+            let username = document.getElementById("loginUsername").value;
+            let password = document.getElementById("loginPassword").value;
+
+            
+            get(child(dbref, "Accounts/"+ username)).then((snapshot)=>{
+                if(snapshot.exists() && snapshot.val()._password == password){
+                    // demo to display data store in firebase
+                    /*alert("This is the data store in firebase"
+                        +"Phone number: "+snapshot.val()._phonenumber + "\n"
+                        +"Email: "+snapshot.val()._userEmail + "\n"
+                        +"Password: "+snapshot.val()._password + "\n"
+                        +"Username: "+snapshot.val()._username + "\n"
+                        +"Last login: "+snapshot.val()._last_login + "\n"
+                        +"Number of login: "+snapshot.val()._number_of_login);*/
+                    // update login number & login time
+                    update(ref(db, "Accounts/"+ username),{
+                        _number_of_login: snapshot.val()._number_of_login + 1,
+                        _last_login:get_date_time_now()
+                    })
+                    // store current login data into local storage
+                    const CURRENT_LOGIN_DATA_KEY = "currentLoginLocalData";
+                    let data = new Account(snapshot.val()._username, snapshot.val()._userEmail, snapshot.val()._password, snapshot.val()._phonenumber, snapshot.val()._last_login, snapshot.val()._number_of_login)
+                    let dataString = JSON.stringify(data);
+                    localStorage.setItem(ACCOUNT_DATA_KEY,dataString)
+
+                    window.location = "coviddashboard.html";
+                }else{
+                    alert("Account or Password does not exist!")
+                }
+            })
+        }
+
+        // sign up function
+        function addAccount() {
+            let username = document.getElementById("signupUsername").value;
+            let email= document.getElementById("signupEmail").value;
+            let phone_number = document.getElementById("signupPhoneNumber").value;
+            let password = document.getElementById("password1").value;
+            let confirm_password = document.getElementById("password2").value;
+            let errorMessage = document.getElementById("errorMessageField");
+
+
+            // if(username == "" || email == "" || phone_number == "" || password.length == "" || confirm_password ==""){
+            //     // Tested this by leaving one field empty and correct error message displayed.
+            //     errorMessage.innerHTML = "Please fill up all of the sections"
+            // }else if (password != confirm_password) {
+            //     // Tested this by having a different password to confirmed password and correct error message displayed.
+            //     errorMessage.innerHTML = "Password does not match, pls try again!"
+                
+            // } else {
+                // Filled in the signup page as requested and message shown the signup was successfull
+                // account_list.addAccount(username,email,password,phone_number);
+                // updateLocalStorage(account_list);
+                alert("Sign Up Successfull");
+                
+                // push account data into firebase
+                let new_account = new Account("username","email","password","phone_number");
+                
+                set(ref(db, "Accounts/"+ username),{
+                    _username: username,
+                    _phonenumber: phone_number,
+                    _userEmail: email,
+                    _password: password,
+                    _last_login: "None",
+                    _number_of_login: 0
+                })
+                
+                showSignIn();
+                
+            // }
+        }
+        function get_date_time_now(){
+            var today = new Date();
+            var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+            var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+            var dateTime = date+' '+time;
+            return dateTime
+        }
+        
+      </script>
+
+</body>
+
+</html>

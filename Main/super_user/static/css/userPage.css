@@ -1,0 +1,30 @@
+
+.centered {
+    margin: 0 auto;
+    text-align: left;
+    width: 200px;
+    height: 100px;
+}
+
+
+.right-navigation {
+    display: flex;
+    justify-content: space-around;
+}
+
+.back-button{
+    color: var(--color-txt);
+    font-size: 1rem;
+    font-weight: 900;
+    cursor: grab;
+    margin-right: 15px;
+}
+
+.logout-button{
+    color: var(--color-txt);
+    font-size: 1rem;
+    font-weight: 900;
+    cursor: grab;
+
+}
+
